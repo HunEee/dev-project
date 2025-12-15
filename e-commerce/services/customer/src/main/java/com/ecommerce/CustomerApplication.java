@@ -1,7 +1,8 @@
-package com.ecommerce.customer;
+package com.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 @SpringBootApplication
 public class CustomerApplication {
@@ -11,3 +12,4 @@ public class CustomerApplication {
 	}
 
 }
+
