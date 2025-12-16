@@ -1,4 +1,4 @@
-package com.ecommerce.handler;
+package com.ecommerce.customer.handler;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ecommerce.exception.CustomerNotFoundException;
+import com.ecommerce.customer.exception.CustomerNotFoundException;
 
 //수기 임포트
 import static org.springframework.http.HttpStatus.BAD_REQUEST;

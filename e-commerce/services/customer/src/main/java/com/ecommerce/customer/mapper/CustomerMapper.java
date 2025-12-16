@@ -1,9 +1,12 @@
 package com.ecommerce.customer.mapper;
 
+import org.springframework.stereotype.Service;
+
 import com.ecommerce.customer.domain.entity.Customer;
 import com.ecommerce.customer.dto.CustomerRequest;
 import com.ecommerce.customer.dto.CustomerResponse;
 
+@Service
 public class CustomerMapper {
 
 	public Customer toCustomer(CustomerRequest request) {

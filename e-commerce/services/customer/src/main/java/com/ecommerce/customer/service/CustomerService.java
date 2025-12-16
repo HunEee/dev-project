@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.customer.domain.entity.Customer;
 import com.ecommerce.customer.dto.CustomerRequest;
 import com.ecommerce.customer.dto.CustomerResponse;
+import com.ecommerce.customer.exception.CustomerNotFoundException;
 import com.ecommerce.customer.mapper.CustomerMapper;
 import com.ecommerce.customer.repository.CustomerRepository;
-import com.ecommerce.exception.CustomerNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
