@@ -1,7 +1,5 @@
 package com.ecommerce.orderline;
 
-import java.util.List;
-
 import com.ecommerce.order.Order;
 
 import jakarta.persistence.Entity;
@@ -9,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "customer_line")
+@Table(name = "order_line")
 public class OrderLine {
 
     @Id
