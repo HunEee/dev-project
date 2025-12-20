@@ -71,6 +71,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!--카프카 의존성 추가-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+		
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.customer.CustomerClient;
 import com.ecommerce.exception.BusinessException;
+import com.ecommerce.kafka.OrderConfirmation;
+import com.ecommerce.kafka.OrderProducer;
 import com.ecommerce.order.dto.OrderRequest;
 import com.ecommerce.order.mapper.OrderMapper;
 import com.ecommerce.order.repository.OrderRepository;
@@ -27,7 +29,7 @@ public class OrderService {
     private final ProductClient productClient;
     private final PaymentClient paymentClient;
     private final OrderLineService orderLineService;
-    
+    private final OrderProducer orderProducer;
 
 	@Transactional
     public Integer createOrder(OrderRequest request) {
@@ -62,6 +64,15 @@ public class OrderService {
         paymentClient.requestOrderPayment(paymentRequest);
         
         //주문 확정 알림 서비스 ->  kafka로 구현
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        request.reference(),
+                        request.amount(),
+                        request.paymentMethod(),
+                        customer,
+                        purchasedProducts
+                )
+        );
 
         return order.getId();
     }	
