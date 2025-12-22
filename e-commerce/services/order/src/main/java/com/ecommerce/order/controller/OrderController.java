@@ -29,16 +29,16 @@ public class OrderController {
 		return ResponseEntity.ok(this.service.createOrder(request));
 	}
 
-  /*
-  @GetMapping
-  public ResponseEntity<List<OrderResponse>> findAll() {
-    return ResponseEntity.ok(this.service.findAllOrders());
-  }
 
-  @GetMapping("/{order-id}")
-  public ResponseEntity<OrderResponse> findById(@PathVariable("order-id") Integer orderId) {
-    return ResponseEntity.ok(this.service.findById(orderId));
-  }
-  */
+	@GetMapping
+	public ResponseEntity<List<OrderResponse>> findAll() {
+		return ResponseEntity.ok(this.service.findAllOrders());
+	}
+	
+	@GetMapping("/{order-id}")
+	public ResponseEntity<OrderResponse> findById(@PathVariable("order-id") Integer orderId) {
+	    return ResponseEntity.ok(this.service.findById(orderId));
+	}
+
   
 }

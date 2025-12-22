@@ -1,8 +1,12 @@
 package com.ecommerce.orderline.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.orderline.dto.OrderLineRequest;
+import com.ecommerce.orderline.dto.OrderLineResponse;
 import com.ecommerce.orderline.mapper.OrderLineMapper;
 import com.ecommerce.orderline.repository.OrderLineRepository;
 
@@ -20,4 +24,11 @@ public class OrderLineService {
         return repository.save(order).getId();
     }
 
+    public List<OrderLineResponse> findAllByOrderId(Integer orderId) {
+        return repository.findAllByOrderId(orderId)
+                .stream()
+                .map(mapper::toOrderLineResponse)
+                .collect(Collectors.toList());
+    }
+    
 }

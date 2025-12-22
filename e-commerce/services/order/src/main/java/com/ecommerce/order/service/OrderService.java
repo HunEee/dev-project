@@ -1,5 +1,8 @@
 package com.ecommerce.order.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +11,7 @@ import com.ecommerce.exception.BusinessException;
 import com.ecommerce.kafka.OrderConfirmation;
 import com.ecommerce.kafka.OrderProducer;
 import com.ecommerce.order.dto.OrderRequest;
+import com.ecommerce.order.dto.OrderResponse;
 import com.ecommerce.order.mapper.OrderMapper;
 import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.orderline.dto.OrderLineRequest;
@@ -17,6 +21,7 @@ import com.ecommerce.payment.PaymentRequest;
 import com.ecommerce.product.ProductClient;
 import com.ecommerce.product.PurchaseRequest;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -75,6 +80,20 @@ public class OrderService {
         );
 
         return order.getId();
+    }
+
+    public List<OrderResponse> findAllOrders() {
+        return this.repository.findAll()
+                .stream()
+                .map(this.mapper::fromOrder)
+                .collect(Collectors.toList());
+    }
+
+    public OrderResponse findById(Integer id) {
+        return this.repository.findById(id)
+                .map(this.mapper::fromOrder)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("주문 ID를 찾을 수 없음: %d", id)));
     }	
+	
 	
 }
