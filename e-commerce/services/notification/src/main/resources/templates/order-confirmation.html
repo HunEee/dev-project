@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: #fff;
+    }
+
+    .footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+	<h1>주문 상세 내역</h1>
+	<p>고객명: <strong><span th:text="${customerName}"></span></strong></p>
+	<p>주문 번호: <strong><span th:text="${orderReference}"></span></strong></p>
+	
+	<table>
+	  <thead>
+	    <tr>
+	      <th>상품명</th>
+	      <th>수량</th>
+	      <th>가격</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr th:each="product : ${products}">
+	      <td th:text="${product.name}"></td>
+	      <td th:text="${product.quantity}"></td>
+	      <td th:text="${product.price}"></td>
+	    </tr>
+	  </tbody>
+	</table>
+	
+	<div class="footer">
+	  <p>
+	    총 결제 금액:
+	    <strong>₩<span th:text="${totalAmount}"></span></strong>
+	  </p>
+	  <p>본 메일은 자동 발송된 메일이므로 회신하실 수 없습니다.</p>
+	  <p>&copy; 2025 jihun. All rights reserved.</p>
+	</div>
+	
+</div>
+</body>
+
+</html>
