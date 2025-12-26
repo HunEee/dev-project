@@ -1,4 +1,4 @@
-package com.ecommerce.dto;
+package com.ecommerce.payment.dto;
 
 public class PaymentResponse {
 

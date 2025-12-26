@@ -1,9 +1,9 @@
-package com.ecommerce.mapper;
+package com.ecommerce.payment.mapper;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.domain.Payment;
-import com.ecommerce.dto.PaymentRequest;
+import com.ecommerce.payment.domain.Payment;
+import com.ecommerce.payment.dto.PaymentRequest;
 
 @Service
 public class PaymentMapper {

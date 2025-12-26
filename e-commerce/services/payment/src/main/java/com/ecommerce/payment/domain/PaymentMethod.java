@@ -1,4 +1,4 @@
-package com.ecommerce.domain;
+package com.ecommerce.payment.domain;
 
 public enum PaymentMethod {
 	  PAYPAL,

@@ -1,4 +1,4 @@
-package com.ecommerce.dto;
+package com.ecommerce.payment.dto;
 
 import org.springframework.validation.annotation.Validated;
 

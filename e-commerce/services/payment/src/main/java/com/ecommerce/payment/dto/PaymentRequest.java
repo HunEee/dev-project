@@ -1,8 +1,8 @@
-package com.ecommerce.dto;
+package com.ecommerce.payment.dto;
 
 import java.math.BigDecimal;
 
-import com.ecommerce.domain.PaymentMethod;
+import com.ecommerce.payment.domain.PaymentMethod;
 
 public record PaymentRequest(
     Integer id,
