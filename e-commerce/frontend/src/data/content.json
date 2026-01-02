@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "title": "Men",
+      "data": [
+        {
+          "title": "Jeans",
+          "description": "Men's jeans",
+          "image": "/assets/img/jeans.jpg"
+        },
+        {
+          "title": "Shirts",
+          "description": "Men's shirts",
+          "image": "/assets/img/shirts.jpg"
+        },
+        {
+          "title": "T-Shirts",
+          "description": "Men's t-shirts",
+          "image": "/assets/img/tshirt.jpeg"
+        },
+        {
+          "title": "Hoodies",
+          "description": "Men's hoodies",
+          "image": "/assets/img/hoodie.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Women",
+      "data": [
+        {
+          "title": "Dresses",
+          "description": "Women's dresses",
+          "image": "/assets/img/dresses.jpg"
+        },
+        {
+          "title": "Crop Tops",
+          "description": "Women's crop tops",
+          "image": "/assets/img/croptop.jpg"
+        },
+        {
+          "title": "Kurtis",
+          "description": "Women's kurtis",
+          "image": "/assets/img/kurtis.jpg"
+        },
+        {
+          "title": "Jeans",
+          "description": "Women's jeans",
+          "image": "/assets/img/jeans.jpg"
+        }
+      ]
+    }
+  ]
+}
