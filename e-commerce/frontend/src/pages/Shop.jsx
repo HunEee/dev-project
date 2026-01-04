@@ -12,7 +12,7 @@ const Shop = () => {
       <div className="shop-content">
         {/* 여기서 상품 리스트, 필터 등 렌더링 */}
         <NewArrivals />
-        {content?.categories&& content?.categories?.map((item,index) => <Category key={item?.title+index} {...item} />)}
+         {content?.pages?.shop?.sections && content?.pages?.shop?.sections?.map((item, index) => <Category key={item?.title+index} {...item} />)}
         <Footer content={content?.footer} />
       </div>
     </div>

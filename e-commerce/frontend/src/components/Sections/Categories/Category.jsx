@@ -7,22 +7,14 @@ const Category = ({title,data}) => {
   return (
     <>
         <SectionHeading title={title}/>
-        <Carousel 
-            responsive={responsive}
-            swipeable
-            draggable={false}
-            showDots={false}
-            infinite={false}
-            itemClass="px-2"
-            containerClass="px-8" 
-        >
-            {data && data?.map((item,index)=>{
-                return (
-                    <Card key={index} title={item?.title} description={item?.description} imagePath={item?.image}
-                    actionArrow={true} height={'240px'} width={'200px'}/>
-                )
-            })}
-        </Carousel>
+        <div className='flex items-center px-8 flex-wrap'>
+        {data && data?.map((item,index)=>{
+            return (
+                <Card key={index} title={item?.title} description={item?.description} imagePath={item?.image}
+                actionArrow={true} height={'240px'} width={'200px'}/>
+            )
+        })}
+        </div>
     </>
   )
 }
