@@ -259,11 +259,11 @@
         "size": ["S", "M", "L"],
         "color": ["Black", "Blue"],
         "discount": 2000,
-        "thumbnail": "./images/dummy/sweatshirt-black.jpg",
+        "thumbnail": "/images/dummy/sweatshirt-black.jpg",
         "images": [
-          "./images/dummy/sweatshirt-black.jpg",
-          "./images/dummy/woman-black-shirt-giving-neutral-flirtatious-poses.jpg",
-          "./images/dummy/woman-holding-coffee-cup-smiling.jpg"
+          "/images/dummy/sweatshirt-black.jpg",
+          "/images/dummy/woman-black-shirt-giving-neutral-flirtatious-poses.jpg",
+          "/images/dummy/woman-holding-coffee-cup-smiling.jpg"
         ],
         "rating": 4.5
       },
@@ -279,10 +279,10 @@
         "color": ["White"],
         "discount": 1500,
         "images": [
-          "./images/dummy/tshirt-white.jpg",
-          "./images/dummy/tshirt-white.jpg"
+          "/images/dummy/tshirt-white.jpg",
+          "/images/dummy/tshirt-white.jpg"
         ],
-        "thumbnail": "./images/dummy/tshirt-white.jpg",
+        "thumbnail": "/images/dummy/tshirt-white.jpg",
         "rating": 4.5
       },
       {
@@ -297,10 +297,10 @@
         "color": ["Purple"],
         "discount": 200,
         "images": [
-          "./images/dummy/hoodie-purple1.jpg",
-          "./images/dummy/hoodie-purple2.jpg"
+          "/images/dummy/hoodie-purple1.jpg",
+          "/images/dummy/hoodie-purple2.jpg"
         ],
-        "thumbnail": "./images/dummy/hoodie-purple.jpg",
+        "thumbnail": "/images/dummy/hoodie-purple.jpg",
         "rating": 4.6
       },
       {
@@ -315,10 +315,10 @@
         "color": ["White"],
         "discount": 205,
         "images": [
-          "./images/dummy/dress-white-leaves1.jpg",
-          "./images/dummy/dress-white-leaves2.jpg"
+          "/images/dummy/dress-white-leaves1.jpg",
+          "/images/dummy/dress-white-leaves2.jpg"
         ],
-        "thumbnail": "./images/dummy/dress-white-leaves.jpg",
+        "thumbnail": "/images/dummy/dress-white-leaves.jpg",
         "rating": 4.7
       },
       {
@@ -333,10 +333,10 @@
         "color": ["White"],
         "discount": 10000,
         "images": [
-          "./images/dummy/crop-top-white1.jpg",
-          "./images/dummy/crop-top-white2.jpg"
+          "/images/dummy/crop-top-white1.jpg",
+          "/images/dummy/crop-top-white2.jpg"
         ],
-        "thumbnail": "./images/dummy/crop-top-white.jpeg",
+        "thumbnail": "/images/dummy/crop-top-white.jpeg",
         "rating": 4.3
       },
       {
@@ -351,10 +351,10 @@
         "color": ["Black"],
         "discount": 15,
         "images": [
-          "./images/dummy/shorts-black1.jpg",
-          "./images/dummy/shorts-black2.jpg"
+          "/images/dummy/shorts-black1.jpg",
+          "/images/dummy/shorts-black2.jpg"
         ],
-        "thumbnail": "./images/dummy/shorts-black.jpeg",
+        "thumbnail": "/images/dummy/shorts-black.jpeg",
         "rating": 4.5
       },
       {
@@ -369,10 +369,10 @@
         "color": ["Blue"],
         "discount": 10,
         "images": [
-          "./images/dummy/jeans-blue1.jpg",
-          "./images/dummy/jeans-blue2.jpg"
+          "/images/dummy/jeans-blue1.jpg",
+          "/images/dummy/jeans-blue2.jpg"
         ],
-        "thumbnail": "./images/dummy/jeans-blue.jpeg",
+        "thumbnail": "/images/dummy/jeans-blue.jpeg",
         "rating": 4.8
       },
       {
@@ -387,10 +387,10 @@
         "color": ["Gray"],
         "discount": 1000,
         "images": [
-          "./images/dummy/sweatshirt-gray1.jpg",
-          "./images/dummy/sweatshirt-gray2.jpg"
+          "/images/dummy/sweatshirt-gray1.jpg",
+          "/images/dummy/sweatshirt-gray2.jpg"
         ],
-        "thumbnail": "./images/dummy/sweatshirt-crewneck.jpeg",
+        "thumbnail": "/images/dummy/sweatshirt-crewneck.jpeg",
         "rating": 4.6
       }
     ]

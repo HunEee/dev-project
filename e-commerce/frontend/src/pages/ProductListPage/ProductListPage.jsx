@@ -53,7 +53,7 @@ const ProductListPage = ({categoryType}) => {
                 {/* 상품 */}
                 <div className='pt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 px-2'>
                     {productListItems?.map((item,index)=>(
-                        <ProductCard key={index} {...item}/>
+                        <ProductCard key={item?.category_id+"_"+index} {...item}/>
                     ))}
                 </div>
 
