@@ -4,8 +4,9 @@ import { SvgEmptyStar } from '../common/SvgEmptyStar';
 
 const Rating = ({rating}) => {
 
+    // rating이 바뀔때마다 다시 계산 -> 렌더링마다 새 배열 만드는 것 방지
     const ratingNumber = useMemo(()=>{
-    return Array(Math.floor(Number(rating))).fill()
+        return Array(Math.floor(Number(rating))).fill()
     },[rating]);
 
   return (
