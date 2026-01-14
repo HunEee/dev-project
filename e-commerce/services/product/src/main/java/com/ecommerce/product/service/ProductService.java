@@ -3,8 +3,10 @@ package com.ecommerce.product.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,37 +15,72 @@ import com.ecommerce.product.dto.ProductPurchaseRequest;
 import com.ecommerce.product.dto.ProductPurchaseResponse;
 import com.ecommerce.product.dto.ProductRequest;
 import com.ecommerce.product.dto.ProductResponse;
+import com.ecommerce.product.entity.Category;
+import com.ecommerce.product.entity.CategoryType;
+import com.ecommerce.product.entity.Product;
 import com.ecommerce.product.mapper.ProductMapper;
 import com.ecommerce.product.repository.ProductRepository;
+import com.ecommerce.product.specification.ProductSpecification;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
-	private final ProductRepository repository;
+	private final ProductRepository productRepository;
 	private final ProductMapper mapper;
 
-	public Integer createProduct(ProductRequest request) {
-	        var product = mapper.toProduct(request);
-	        return repository.save(product).getId();
-	}
-
-    public ProductResponse findById(Integer id) {
-        return repository.findById(id)
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	/*
+    public ProductResponse findById(UUID id) {
+        return productRepository.findById(id)
                 .map(mapper::toProductResponse)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 제품ID:: " + id));
     }
+    */
+    
+	public List<ProductResponse> findAll(UUID categoryId, UUID typeId) {
+        
+		Specification<Product> spec = Specification.allOf();;
 
-    public List<ProductResponse> findAll() {
-        return repository.findAll()
+        if (categoryId != null) {
+            spec = spec.and(ProductSpecification.hasCategoryId(categoryId));
+        }
+        if (typeId != null) {
+            spec = spec.and(ProductSpecification.hasCategoryTypeId(typeId));
+        }
+    	
+        return productRepository.findAll(spec)
                 .stream()
                 .map(mapper::toProductResponse)
                 .collect(Collectors.toList());
     }
+    
+	@Transactional
+	public UUID createProduct(ProductRequest request) {
 
+	    Category category = entityManager.getReference(
+	            Category.class,
+	            request.categoryId()
+	    );
+
+	    CategoryType categoryType = entityManager.getReference(
+	            CategoryType.class,
+	            request.categoryTypeId()
+	    );
+
+	    Product product = mapper.toEntity(request, category, categoryType);
+
+	    return productRepository.save(product).getId();
+	}
+
+    /*
     @Transactional(rollbackFor = ProductPurchaseException.class)
     public List<ProductPurchaseResponse> purchaseProducts(List<ProductPurchaseRequest> request) {
         var productIds = request
@@ -72,6 +109,7 @@ public class ProductService {
         }
         return purchasedProducts;
     }
+    */
 	
 	
 }

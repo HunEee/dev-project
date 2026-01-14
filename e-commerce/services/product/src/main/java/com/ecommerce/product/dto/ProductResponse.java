@@ -1,15 +1,22 @@
 package com.ecommerce.product.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.UUID;
 
 public record ProductResponse(
-        Integer id,
+        UUID id,
         String name,
         String description,
-        double availableQuantity,
         BigDecimal price,
-        Integer categoryId,
+        String brand,
+        Float rating,
+        boolean newArrival,
+
+        UUID categoryId,
         String categoryName,
-        String categoryDescription
-) {
-}
+
+        UUID categoryTypeId,
+        String categoryTypeName
+
+) {}
