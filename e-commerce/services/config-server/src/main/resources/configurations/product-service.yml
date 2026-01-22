@@ -8,13 +8,20 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     baseline-on-migrate: true
-    enabled: true
+    enabled: false
     baseline-description: "init"
     baseline-version: 0
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
