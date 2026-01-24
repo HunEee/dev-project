@@ -36,6 +36,8 @@ public class Category {
     @Column(nullable = false)
     private String code;
     
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryType> categoryTypes;
     
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products;

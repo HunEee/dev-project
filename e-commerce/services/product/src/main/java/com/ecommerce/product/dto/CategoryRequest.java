@@ -1,12 +1,10 @@
 package com.ecommerce.product.dto;
 
 import java.util.List;
-import java.util.UUID;
 
-public record CategoryResponse(
-        UUID id,
+public record CategoryRequest(
         String name,
         String description,
         String code,
-        List<CategoryTypeResponse> categoryTypes
+        List<CategoryTypeRequest> categoryTypes
 ) {}
