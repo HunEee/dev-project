@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.product.dto.ProductPurchaseResponse;
-import com.ecommerce.product.dto.ProductRequest;
-import com.ecommerce.product.dto.ProductResponse;
+import com.ecommerce.product.dto.request.ProductRequest;
+import com.ecommerce.product.dto.response.ProductPurchaseResponse;
+import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
 import com.ecommerce.product.entity.Product;

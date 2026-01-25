@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.product.dto.ProductResourcesRequest;
-import com.ecommerce.product.dto.ProductResourcesResponse;
+import com.ecommerce.product.dto.request.ProductResourcesRequest;
+import com.ecommerce.product.dto.response.ProductResourcesResponse;
 import com.ecommerce.product.entity.Product;
 import com.ecommerce.product.entity.ProductResources;
 

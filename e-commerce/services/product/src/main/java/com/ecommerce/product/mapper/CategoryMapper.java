@@ -1,19 +1,21 @@
 package com.ecommerce.product.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.product.dto.CategoryRequest;
-import com.ecommerce.product.dto.CategoryResponse;
-import com.ecommerce.product.dto.CategoryTypeResponse;
+import com.ecommerce.product.dto.request.CategoryCreateRequest;
+import com.ecommerce.product.dto.request.CategoryTypeCreateRequest;
+import com.ecommerce.product.dto.response.CategoryResponse;
+import com.ecommerce.product.dto.response.CategoryTypeResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
 
 @Service
 public class CategoryMapper {
 	
-	public Category toEntity(CategoryRequest request) {
+	public Category toEntity(CategoryCreateRequest request) {
         Category category = Category.builder()
                 .name(request.name())
                 .description(request.description())
@@ -21,33 +23,30 @@ public class CategoryMapper {
                 .build();
 
         if (request.categoryTypes() != null) {
-            List<CategoryType> types = request.categoryTypes().stream()
-                    .map(type -> CategoryType.builder()
-                            .name(type.name())
-                            .code(type.code())
-                            .description(type.description())
-                            .category(category)
-                            .build())
-                    .toList();
-
-            // 연관관계 주입
-            category.setProducts(null); // 명시적으로 product는 건드리지 않음
+            category.setCategoryTypes(
+                    toCategoryTypeList(request.categoryTypes(), category)
+            );
         }
-
         return category;
     }
-
+	
+	private List<CategoryType> toCategoryTypeList(List<CategoryTypeCreateRequest> categoryTypeList,Category category) {
+	        return categoryTypeList.stream()
+	                .map(dto -> {
+	                    CategoryType categoryType = new CategoryType();
+	                    categoryType.setCode(dto.code());
+	                    categoryType.setName(dto.name());
+	                    categoryType.setDescription(dto.description());
+	                    categoryType.setCategory(category); // 연관관계 주입
+	                    return categoryType;
+	                })
+	                .collect(Collectors.toList());
+	}
+	
+	
     /* =========================
        Entity → Response
      ========================= */
-	/*
-	 * public CategoryResponse toResponse(Category category,List<CategoryType>
-	 * categoryTypes) { return new CategoryResponse( category.getId(),
-	 * category.getName(), category.getDescription(), category.getCode(),
-	 * mapToTypeResponses(categoryTypes) ); }
-	 */
-    
-    
     
     public CategoryResponse toResponse(Category category) {
         return new CategoryResponse(

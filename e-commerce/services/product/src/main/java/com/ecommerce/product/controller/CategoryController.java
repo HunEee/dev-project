@@ -13,18 +13,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.product.dto.CategoryRequest;
-import com.ecommerce.product.dto.CategoryResponse;
+import com.ecommerce.product.dto.request.CategoryCreateRequest;
+import com.ecommerce.product.dto.request.CategoryUpdateRequest;
+import com.ecommerce.product.dto.response.CategoryResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.service.CategoryService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+//import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -41,16 +46,20 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
     
-    // 생성 (Product 스타일처럼 ID만 반환)
+    // 생성 
     @PostMapping
-    public ResponseEntity<UUID> createCategory(@RequestBody @Valid CategoryRequest request){
+    public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryCreateRequest request, HttpServletRequest httpRequest){
+        log.info("Content-Type = {}", httpRequest.getContentType());
+        log.info("Controller request = {}", request);
+        System.out.println(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(categoryService.createCategory(request));
     }
 
+    // 수정
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@RequestBody CategoryRequest request, @PathVariable(value = "id",required = true) UUID categoryId){
+    public ResponseEntity<Category> updateCategory(@RequestBody CategoryUpdateRequest request, @PathVariable(value = "id",required = true) UUID categoryId){
     	categoryService.updateCategory(request,categoryId);
         return ResponseEntity.ok().build();
     }

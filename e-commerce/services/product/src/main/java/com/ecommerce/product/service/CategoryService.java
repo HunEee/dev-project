@@ -2,23 +2,25 @@ package com.ecommerce.product.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
-import com.ecommerce.product.dto.CategoryRequest;
-import com.ecommerce.product.dto.CategoryResponse;
-import com.ecommerce.product.dto.CategoryTypeRequest;
+import com.ecommerce.product.dto.request.CategoryCreateRequest;
+import com.ecommerce.product.dto.request.CategoryTypeUpdateRequest;
+import com.ecommerce.product.dto.request.CategoryUpdateRequest;
+import com.ecommerce.product.dto.response.CategoryResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
 import com.ecommerce.product.mapper.CategoryMapper;
 import com.ecommerce.product.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CategoryService {
 
@@ -39,18 +41,14 @@ public class CategoryService {
                 .toList();
     }
 
-    public UUID createCategory(CategoryRequest request) {
-        Category category = Category.builder()
-                .name(request.name())
-                .code(request.code())
-                .description(request.description())
-                .build();
-
-        return categoryRepository.save(category).getId();
+    public Category createCategory(CategoryCreateRequest request) {
+    	log.info("createCategory name={}, code={}", request.name(), request.code());
+        Category category = categoryMapper.toEntity(request);
+        return categoryRepository.save(category);
     }
     
     
-    public void updateCategory(CategoryRequest request, UUID categoryId) {
+    public void updateCategory(CategoryUpdateRequest request, UUID categoryId) {
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
@@ -72,7 +70,7 @@ public class CategoryService {
             List<CategoryType> existingTypes = category.getCategoryTypes();
             List<CategoryType> updatedTypes = new ArrayList<>();
 
-            for (CategoryTypeRequest typeReq : request.categoryTypes()) {
+            for (CategoryTypeUpdateRequest typeReq : request.categoryTypes()) {
 
                 if (typeReq.id() != null) {
                     CategoryType type = existingTypes.stream()

@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.exception.ProductPurchaseException;
-import com.ecommerce.product.dto.ProductPurchaseRequest;
-import com.ecommerce.product.dto.ProductPurchaseResponse;
-import com.ecommerce.product.dto.ProductRequest;
-import com.ecommerce.product.dto.ProductResponse;
+import com.ecommerce.product.dto.request.ProductPurchaseRequest;
+import com.ecommerce.product.dto.request.ProductRequest;
+import com.ecommerce.product.dto.response.ProductPurchaseResponse;
+import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
 import com.ecommerce.product.entity.Product;
@@ -33,8 +33,9 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 	private final ProductMapper mapper;
-
-	@PersistenceContext
+    private final CategoryService categoryService;
+	
+    @PersistenceContext
 	private EntityManager entityManager;
 	
 	/*

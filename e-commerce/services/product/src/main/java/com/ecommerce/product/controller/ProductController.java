@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.product.dto.ProductPurchaseRequest;
-import com.ecommerce.product.dto.ProductPurchaseResponse;
-import com.ecommerce.product.dto.ProductRequest;
-import com.ecommerce.product.dto.ProductResponse;
+import com.ecommerce.product.dto.request.ProductPurchaseRequest;
+import com.ecommerce.product.dto.request.ProductRequest;
+import com.ecommerce.product.dto.response.ProductPurchaseResponse;
+import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.service.ProductService;
 
 import jakarta.validation.Valid;

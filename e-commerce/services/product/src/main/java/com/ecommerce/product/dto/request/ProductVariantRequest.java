@@ -1,4 +1,4 @@
-package com.ecommerce.product.dto;
+package com.ecommerce.product.dto.request;
 
 public record ProductVariantRequest(
         String color,

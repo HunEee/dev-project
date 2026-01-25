@@ -1,8 +1,8 @@
-package com.ecommerce.product.dto;
+package com.ecommerce.product.dto.request;
 
 import java.util.UUID;
 
-public record CategoryTypeResponse(
+public record CategoryTypeUpdateRequest(
         UUID id,
         String name,
         String code,
