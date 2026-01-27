@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,17 +20,14 @@ import com.ecommerce.product.dto.response.CategoryResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.service.CategoryService;
 
-import org.springframework.web.bind.annotation.RequestBody;
 //import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
-@Slf4j
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -49,9 +47,6 @@ public class CategoryController {
     // 생성 
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryCreateRequest request, HttpServletRequest httpRequest){
-        log.info("Content-Type = {}", httpRequest.getContentType());
-        log.info("Controller request = {}", request);
-        System.out.println(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(categoryService.createCategory(request));

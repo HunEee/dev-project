@@ -1,6 +1,5 @@
 package com.ecommerce.product.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,19 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.product.dto.request.CategoryCreateRequest;
-import com.ecommerce.product.dto.request.CategoryTypeUpdateRequest;
 import com.ecommerce.product.dto.request.CategoryUpdateRequest;
 import com.ecommerce.product.dto.response.CategoryResponse;
 import com.ecommerce.product.entity.Category;
-import com.ecommerce.product.entity.CategoryType;
 import com.ecommerce.product.mapper.CategoryMapper;
 import com.ecommerce.product.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class CategoryService {
 
@@ -42,65 +37,20 @@ public class CategoryService {
     }
 
     public Category createCategory(CategoryCreateRequest request) {
-    	log.info("createCategory name={}, code={}", request.name(), request.code());
         Category category = categoryMapper.toEntity(request);
         return categoryRepository.save(category);
     }
     
     
-    public void updateCategory(CategoryUpdateRequest request, UUID categoryId) {
+    public Category updateCategory(CategoryUpdateRequest request, UUID categoryId) {
+	    Category category = categoryRepository.findById(categoryId)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("Category not found with id " + categoryId)
+	            );
+	    categoryMapper.updateCategory(category, request);
+	    // @Transactional 이라 save 없어도 되지만 명시적으로
+	    return categoryRepository.save(category);
 
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Category not found with id " + categoryId)
-                );
-
-        if (request.name() != null) {
-            category.setName(request.name());
-        }
-        if (request.code() != null) {
-            category.setCode(request.code());
-        }
-        if (request.description() != null) {
-            category.setDescription(request.description());
-        }
-
-        // CategoryType 업데이트
-        if (request.categoryTypes() != null) {
-            List<CategoryType> existingTypes = category.getCategoryTypes();
-            List<CategoryType> updatedTypes = new ArrayList<>();
-
-            for (CategoryTypeUpdateRequest typeReq : request.categoryTypes()) {
-
-                if (typeReq.id() != null) {
-                    CategoryType type = existingTypes.stream()
-                            .filter(t -> t.getId().equals(typeReq.id()))
-                            .findFirst()
-                            .orElseThrow(() ->
-                                    new ResourceNotFoundException("CategoryType not found: " + typeReq.id())
-                            );
-
-                    type.setName(typeReq.name());
-                    type.setCode(typeReq.code());
-                    type.setDescription(typeReq.description());
-                    updatedTypes.add(type);
-
-                } else {
-                    CategoryType newType = CategoryType.builder()
-                            .name(typeReq.name())
-                            .code(typeReq.code())
-                            .description(typeReq.description())
-                            .category(category)
-                            .build();
-
-                    updatedTypes.add(newType);
-                }
-            }
-
-            category.setCategoryTypes(updatedTypes);
-        }
-        // @Transactional 이라 save 없어도 되지만 명시적으로
-        categoryRepository.save(category);
     }
     
     public void deleteCategory(UUID categoryId) {
