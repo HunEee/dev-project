@@ -1,8 +1,11 @@
 package com.ecommerce.product.dto.request;
 
+import java.util.UUID;
+
 public record ProductResourcesRequest(
-        String name,
-        String url,
-        Boolean isPrimary,
-        String type
+	    UUID id,
+	    String name,
+	    String url,
+	    String type,
+	    Boolean isPrimary
 ) {}

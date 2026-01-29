@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.exception.ProductPurchaseException;
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.product.dto.request.ProductPurchaseRequest;
 import com.ecommerce.product.dto.request.ProductRequest;
+import com.ecommerce.product.dto.response.CategoryResponse;
+import com.ecommerce.product.dto.response.CategoryTypeResponse;
 import com.ecommerce.product.dto.response.ProductPurchaseResponse;
 import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Category;
@@ -32,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
 	private final ProductRepository productRepository;
-	private final ProductMapper mapper;
+	private final ProductMapper productMapper;
     private final CategoryService categoryService;
 	
     @PersistenceContext
@@ -59,26 +62,28 @@ public class ProductService {
     	
         return productRepository.findAll(spec)
                 .stream()
-                .map(mapper::toProductResponse)
+                .map(productMapper::toProductResponse)
                 .collect(Collectors.toList());
     }
     
+	
 	@Transactional
-	public UUID createProduct(ProductRequest request) {
+	public Product createProduct(ProductRequest request) {
+		// 1. Category 조회 
+        Category category = categoryService.getCategoryId(request.categoryId());
 
-	    Category category = entityManager.getReference(
-	            Category.class,
-	            request.categoryId()
-	    );
+        // 2. CategoryType 검증
+        CategoryType categoryType = category.getCategoryTypes().stream()
+                .filter(t -> t.getId().equals(request.categoryTypeId()))
+                .findFirst()
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("CategoryType not found")
+                );
+        
+        // 3. Product + Variants + Resources 모두 포함
+        Product product = productMapper.toEntity(request, category, categoryType);
 
-	    CategoryType categoryType = entityManager.getReference(
-	            CategoryType.class,
-	            request.categoryTypeId()
-	    );
-
-	    Product product = mapper.toEntity(request, category, categoryType);
-
-	    return productRepository.save(product).getId();
+	    return productRepository.save(product);
 	}
 
     /*

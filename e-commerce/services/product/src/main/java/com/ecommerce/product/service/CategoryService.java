@@ -60,6 +60,14 @@ public class CategoryService {
         categoryRepository.deleteById(categoryId);
     }
     
+    
+    //ProductService에서 호출하는 API
+    public Category getCategoryId(UUID id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        return category;
+    }
+    
 
 	
 }

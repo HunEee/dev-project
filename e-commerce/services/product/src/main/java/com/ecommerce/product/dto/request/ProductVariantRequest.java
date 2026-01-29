@@ -1,7 +1,10 @@
 package com.ecommerce.product.dto.request;
 
+import java.util.UUID;
+
 public record ProductVariantRequest(
-        String color,
-        String size,
-        Integer stockQuantity
+	    UUID id,
+	    String color,
+	    String size,
+	    Integer stockQuantity
 ) {}

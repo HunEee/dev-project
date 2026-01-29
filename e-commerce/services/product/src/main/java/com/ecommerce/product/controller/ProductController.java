@@ -16,6 +16,7 @@ import com.ecommerce.product.dto.request.ProductPurchaseRequest;
 import com.ecommerce.product.dto.request.ProductRequest;
 import com.ecommerce.product.dto.response.ProductPurchaseResponse;
 import com.ecommerce.product.dto.response.ProductResponse;
+import com.ecommerce.product.entity.Product;
 import com.ecommerce.product.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -46,7 +47,7 @@ public class ProductController {
     
     // record에 Validation 붙였으면 파라미터에 @Valid 필수
     @PostMapping
-    public ResponseEntity<UUID> createProduct(@RequestBody @Valid ProductRequest request) {
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.ok(service.createProduct(request));
     }
     

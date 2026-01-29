@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.product.dto.request.ProductRequest;
-import com.ecommerce.product.dto.response.ProductPurchaseResponse;
+import com.ecommerce.product.dto.request.ProductResourcesRequest;
+import com.ecommerce.product.dto.request.ProductVariantRequest;
 import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
@@ -18,15 +19,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductMapper {
-	
-    private final ProductVariantMapper productVariantMapper;
-    private final ProductResourcesMapper productResourcesMapper;
-	
-    public Product toEntity(
-            ProductRequest request,
-            Category category,
-            CategoryType categoryType
-    ) {
+
+    public Product toEntity(ProductRequest request, Category category, CategoryType categoryType) {
         Product product = Product.builder()
                 .name(request.name())
                 .description(request.description())
@@ -37,22 +31,45 @@ public class ProductMapper {
                 .category(category)
                 .categoryType(categoryType)
                 .build();
-
+        
         // Variant 매핑
-        if (request.variants() != null && !request.variants().isEmpty()) {
-            List<ProductVariant> variants =
-                    productVariantMapper.toEntities(request.variants(), product);
-            product.setProductVariants(variants);
+        if (request.variants() != null) {
+            product.setProductVariants(
+                    toVariants(request.variants(), product)
+            );
         }
 
-        // Resources 매핑
-        if (request.resources() != null && !request.resources().isEmpty()) {
-            List<ProductResources> resources =
-                    productResourcesMapper.toEntities(request.resources(), product);
-            product.setResources(resources);
+        // Resource 매핑
+        if (request.resources() != null) {
+            product.setResources(
+                    toResources(request.resources(), product)
+            );
         }
-
+        
         return product;
+    }
+     
+    public List<ProductResources> toResources(List<ProductResourcesRequest> resourceRequest,Product product) {
+        return resourceRequest.stream()
+                .map(dto -> ProductResources.builder()
+                		.name(dto.name())
+                		.type(dto.type())
+                		.url(dto.url())
+                		.isPrimary(dto.isPrimary())
+                        .product(product)
+                        .build()
+                ).toList();
+    }
+    
+    public List<ProductVariant> toVariants(List<ProductVariantRequest> variantRequest,Product product) {
+        return variantRequest.stream()
+                .map(dto -> ProductVariant.builder()
+                        .color(dto.color())
+                        .size(dto.size())
+                        .stockQuantity(dto.stockQuantity())
+                        .product(product)
+                        .build()
+                ).toList();
     }
     
     public ProductResponse toProductResponse(Product product) {
@@ -70,21 +87,7 @@ public class ProductMapper {
                 product.getCategoryType().getName()
         );
     }
-    
-/*
-    public ProductResponse toProductResponse(Product product) {
-        return new ProductResponse(
-                product.getId(),
-                product.getName(),
-                product.getDescription(),
-                product.getAvailableQuantity(),
-                product.getPrice(),
-                product.getCategory().getId(),
-                product.getCategory().getName(),
-                product.getCategory().getDescription()
-        );
-    }
-*/    
+     
     
 /*
     public ProductPurchaseResponse toproductPurchaseResponse(Product product, double quantity) {
