@@ -49,7 +49,7 @@ public class ProductMapper {
         return product;
     }
      
-    public List<ProductResources> toResources(List<ProductResourcesRequest> resourceRequest,Product product) {
+    private List<ProductResources> toResources(List<ProductResourcesRequest> resourceRequest,Product product) {
         return resourceRequest.stream()
                 .map(dto -> ProductResources.builder()
                 		.name(dto.name())
@@ -61,7 +61,7 @@ public class ProductMapper {
                 ).toList();
     }
     
-    public List<ProductVariant> toVariants(List<ProductVariantRequest> variantRequest,Product product) {
+    private List<ProductVariant> toVariants(List<ProductVariantRequest> variantRequest,Product product) {
         return variantRequest.stream()
                 .map(dto -> ProductVariant.builder()
                         .color(dto.color())

@@ -1,7 +1,5 @@
 package com.ecommerce.product.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -10,13 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ecommerce.exception.ProductPurchaseException;
 import com.ecommerce.exception.ResourceNotFoundException;
-import com.ecommerce.product.dto.request.ProductPurchaseRequest;
 import com.ecommerce.product.dto.request.ProductRequest;
-import com.ecommerce.product.dto.response.CategoryResponse;
-import com.ecommerce.product.dto.response.CategoryTypeResponse;
-import com.ecommerce.product.dto.response.ProductPurchaseResponse;
 import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Category;
 import com.ecommerce.product.entity.CategoryType;
@@ -25,9 +18,6 @@ import com.ecommerce.product.mapper.ProductMapper;
 import com.ecommerce.product.repository.ProductRepository;
 import com.ecommerce.product.specification.ProductSpecification;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,9 +27,6 @@ public class ProductService {
 	private final ProductRepository productRepository;
 	private final ProductMapper productMapper;
     private final CategoryService categoryService;
-	
-    @PersistenceContext
-	private EntityManager entityManager;
 	
 	/*
     public ProductResponse findById(UUID id) {

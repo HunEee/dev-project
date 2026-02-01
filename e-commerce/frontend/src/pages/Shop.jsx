@@ -3,9 +3,25 @@ import NewArrivals from '../components/Sections/NewArrivals.jsx'
 import Category from '../components/Sections/Categories/Category.jsx'
 import content from '../data/content.json';
 import Footer from '../components/Footer/Footer.jsx';
+import { useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { fetchCategories } from '../api/fetchCategories.js';
+import { loadCategories } from '../store/features/category.js';
+import { setLoading } from '../store/features/common.js';
 
 
 const Shop = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(setLoading(true));
+    fetchCategories().then(res=>{dispatch(loadCategories(res));})
+                      .catch(err=>{})
+                      .finally(()=>{dispatch(setLoading(false));})
+  },[dispatch]);
+
+
   return (
     <div>
       <HeroSection />   {/* 페이지 상단 */}
