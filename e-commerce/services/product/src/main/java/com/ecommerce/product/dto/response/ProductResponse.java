@@ -12,11 +12,16 @@ public record ProductResponse(
         String brand,
         Float rating,
         boolean newArrival,
+        String slug,
 
         UUID categoryId,
         String categoryName,
 
         UUID categoryTypeId,
-        String categoryTypeName
+        String categoryTypeName,
+        
+        String thumbnail,
+        List<ProductVariantResponse> variants,
+        List<ProductResourcesResponse> resources
 
 ) {}

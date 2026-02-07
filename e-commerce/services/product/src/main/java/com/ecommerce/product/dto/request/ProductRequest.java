@@ -27,6 +27,8 @@ public record ProductRequest(
         String brand,
 
         boolean isNewArrival,
+        
+        String slug,
 
         @Positive(message = "평점은 양수여야 합니다.")
         Float rating,

@@ -11,5 +11,6 @@ import com.ecommerce.product.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
 
     List<Product> findAllByIdInOrderById(List<UUID> ids);
+    Product findBySlug(String slug);
 
 }

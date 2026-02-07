@@ -6,6 +6,6 @@ public record ProductResourcesResponse(
         UUID id,
         String name,
         String url,
-        Boolean isPrimary,
-        String type
+        String type,
+        Boolean isPrimary
 ) {}

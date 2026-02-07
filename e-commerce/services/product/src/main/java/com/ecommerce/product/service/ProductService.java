@@ -52,7 +52,15 @@ public class ProductService {
                 .map(productMapper::toProductResponse)
                 .collect(Collectors.toList());
     }
-    
+	
+    public ProductResponse findBySlug(String slug) {
+        Product product= productRepository.findBySlug(slug);
+        if(null == product){
+            throw new ResourceNotFoundException("Product Not Found!");
+        }
+        ProductResponse productResponse = productMapper.toProductResponse(product);
+        return productResponse;
+    }
 	
 	@Transactional
 	public Product createProduct(ProductRequest request) {
@@ -72,6 +80,30 @@ public class ProductService {
 
 	    return productRepository.save(product);
 	}
+	
+	@Transactional
+    public Product updateProduct(UUID productId,ProductRequest request) {
+        // 1️. 기존 엔티티 조회
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+    	
+        // 2️. Category / CategoryType 변경 시만 처리
+        if (request.categoryId() != null) {
+            Category category = categoryService.getCategoryId(request.categoryId());
+
+            if (request.categoryTypeId() != null) {
+                CategoryType categoryType = category.getCategoryTypes().stream()
+                        .filter(t -> t.getId().equals(request.categoryTypeId()))
+                        .findFirst()
+                        .orElseThrow(() -> new ResourceNotFoundException("CategoryType not found"));
+                product.changeCategory(category, categoryType);
+            }
+        }
+        
+        productMapper.updateEntity(product,request);
+        return product;
+    }
+
 
     /*
     @Transactional(rollbackFor = ProductPurchaseException.class)

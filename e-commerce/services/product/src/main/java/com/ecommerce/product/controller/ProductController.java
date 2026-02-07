@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.product.dto.request.ProductPurchaseRequest;
 import com.ecommerce.product.dto.request.ProductRequest;
-import com.ecommerce.product.dto.response.ProductPurchaseResponse;
 import com.ecommerce.product.dto.response.ProductResponse;
 import com.ecommerce.product.entity.Product;
 import com.ecommerce.product.service.ProductService;
@@ -40,8 +40,15 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll(    
     		@RequestParam(required = false) UUID categoryId,
-    	    @RequestParam(required = false) UUID typeId
+    	    @RequestParam(required = false) UUID typeId,
+    	    @RequestParam(required = false) String slug
 	) {
+        // slug가 있으면 단건 조회
+        if (StringUtils.hasText(slug)) {
+            ProductResponse product = service.findBySlug(slug);
+            return ResponseEntity.ok(List.of(product));
+        }
+    	
         return ResponseEntity.ok(service.findAll(categoryId, typeId));
     }
     
@@ -50,6 +57,12 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.ok(service.createProduct(request));
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductRequest request){        
+        return ResponseEntity.ok(service.updateProduct(id,request));
+    }
+    
     
   /*  
     @PostMapping("/purchase")

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "product_resources")
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -46,6 +46,12 @@ public class ProductResources {
     @JoinColumn(name = "product_id",nullable = false)
     @JsonIgnore
     private Product product;
+    
+    
+    //세터 위험성 제거
+    void changeProduct(Product product) { // package-private
+        this.product = product;
+    }
     
     
 }

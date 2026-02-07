@@ -5,22 +5,38 @@ import PriceFilter from '../../components/Filters/PriceFilter';
 import ColorsFilter from '../../components/Filters/ColorsFilter';
 import SizeFilter from '../../components/Filters/SizeFilter';
 import ProductCard from './ProductCard';
-
-
 import content from '../../data/content.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../store/features/common';
+import { getAllProducts } from '../../api/fetchProducts';
 
 
 const categories = content?.categories;
 
 const ProductListPage = ({categoryType}) => {
 
+    // 더미 데이터
     const categoryContent = useMemo(()=>{
-    return categories?.find((category)=> category.code === categoryType);
+        return categories?.find((category)=> category.code === categoryType);
     },[categoryType]);
-
     const productListItems = useMemo(()=>{
-    return content?.products?.filter((product)=> product?.category_id === categoryContent?.id );
+        return content?.products?.filter((product)=> product?.category_id === categoryContent?.id );
     },[categoryContent]);
+
+    const categoryData = useSelector((state)=> state?.categoryState?.categories);
+    const dispatch = useDispatch();
+    const [products,setProducts] = useState([]);
+    const category = useMemo(()=>{
+        return categoryData?.find(element => element?.code === categoryType);
+    },[categoryData, categoryType]);
+
+    useEffect(()=>{
+        dispatch(setLoading(true));
+        getAllProducts(category?.id).then(res=>{
+            setProducts(res);
+        }).catch(err=>{})
+          .finally(()=>{dispatch(setLoading(false));})
+    },[category?.id, dispatch]);
 
 
   return (
@@ -52,9 +68,14 @@ const ProductListPage = ({categoryType}) => {
                 <p className='text-black text-lg'>{categoryContent?.description}</p>
                 {/* 상품 */}
                 <div className='pt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 px-2'>
+                    {products?.map((item,index)=>(
+                    <ProductCard key={item?.id+"_"+index} {...item} title={item?.name}/>
+                    ))}
+                    {/* 더미 데이터 
                     {productListItems?.map((item,index)=>(
                         <ProductCard key={item?.category_id+"_"+index} {...item}/>
                     ))}
+                    */}
                 </div>
 
             </div>
