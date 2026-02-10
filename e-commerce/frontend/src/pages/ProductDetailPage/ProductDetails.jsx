@@ -12,8 +12,10 @@ import ProductColors from './ProductColors'
 import SectionHeading from '../../components/Sections/SectionsHeading/SectionHeading'
 import ProductCard from '../ProductListPage/ProductCard'
 import content from '../../data/content.json'
+import _ from 'lodash' //_  쓰기위해서
+import { getAllProducts } from '../../api/fetchProducts';
 
-const categories = content?.categories;
+//const categories = content?.categories;
 
 const extraSections = [
   {
@@ -42,16 +44,28 @@ const ProductDetails = () => {
     const [breadCrumbLinks, setBreadCrumbLink] = useState([]);
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cartState?.cart);
+    const [similarProduct,setSimilarProducts] = useState([]);
+    const categories = useSelector((state)=> state?.categoryState?.categories);
 
-    console.log("Cart items ",cartItems);
-
-    const similarProducts = useMemo(()=>{
-    return content?.products?.filter((item)=> (item?.type_id === product?.type_id && item?.id !== product?.id));
-    },[product]);
+    // 더미 데이터용
+    // const similarProducts = useMemo(()=>{
+    //     return content?.products?.filter((item)=> (item?.type_id === product?.type_id && item?.id !== product?.id));
+    // },[product]);
 
     const productCategory = useMemo(() => {
-    return categories?.find((category) => category?.id === product?.category_id);
+        return categories?.find((category) => category?.id === product?.category_id);
     }, [product]);
+
+
+    useEffect(()=>{
+        getAllProducts(product?.categoryId,product?.categoryTypeId)
+            .then(res=>{
+                const excludedProduct = res?.filter((item)=> item?.id !== product?.id);
+                setSimilarProducts(excludedProduct);
+            })
+            .catch(()=>[
+            ])
+    },[product?.categoryId, product?.categoryTypeId, product?.id]);
 
     useEffect(() => {
         setImage(product?.images?.[0] || product?.thumbnail);
@@ -81,6 +95,16 @@ const ProductDetails = () => {
     //dispatch(addToCart({id:product?.id,quantity:1}));
     },[dispatch, product?.id]);
 
+    const colors = useMemo(()=>{
+        const colorSet = _.uniq(_.map(product?.variants,'color'));
+        return colorSet
+    },[product]);
+
+    const sizes = useMemo(()=>{
+        const sizeSet = _.uniq(_.map(product?.variants,'size'));
+        return sizeSet
+    },[product]);
+
   return (
     <>
     <div className='flex flex-col md:flex-row px-10'>
@@ -91,26 +115,18 @@ const ProductDetails = () => {
             <div className='w-[100%] md:w-[20%] justify-center h-[40px] md:h-[420px]'>
                 {/* 이미지 모음 */}
                 <div className='flex flex-row md:flex-col justify-center h-full'>
-                    {
-                        product?.images?.map((item, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setImage(item)}
-                                className="rounded-lg w-fit p-2 mb-2"
-                            >
-                                <img
-                                    src={item}
-                                    className="h-[60px] w-[60px] rounded-lg object-cover hover:scale-105 hover:border"
-                                    alt={`sample-${index}`}
-                                />
-                            </button>
-                        ))
-                    }
+                {
+                    product?.productResources?.map((item, index) => (
+                        <button key={index} onClick={() => setImage(item?.url)} className='rounded-lg w-fit p-2 mb-2'>
+                            <img src={item?.url} className='h-[60px] w-[60px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} />
+                        </button>
+                    ))
+                }
                 </div>
             </div>
             <div className='w-full md:w-[80%] flex justify-center md:pt-0 pt-10'>
                 <img src={image} className='h-full w-full max-h-[520px]
-                border rounded-lg cursor-pointer object-cover' alt={product?.title} />
+                border rounded-lg cursor-pointer object-cover' alt={product?.name} />
             </div>
         </div>
     </div>
@@ -118,7 +134,7 @@ const ProductDetails = () => {
     <div className='w-[60%] px-10'>
         {/* 상품설명*/}
         <Breadcrumb links={breadCrumbLinks} />
-        <p className='text-3xl pt-4'>{product?.title}</p>
+        <p className='text-3xl pt-4'>{product?.name}</p>
         <Rating rating={product?.rating} />
         {/* 가격 */}
         <p className='text-xl bold py-2'>{product?.price}원</p>
@@ -129,11 +145,11 @@ const ProductDetails = () => {
                 <Link className='text-sm text-gray-500 hover:text-gray-900' to={'https://en.wikipedia.org/wiki/Clothing_sizes'} target='_blank'>{'Size Guide ->'}</Link>
             </div>
         </div>
-        <div className='mt-2'><SizeFilter sizes={product?.size} hidleTitle /></div>
+        <div className='mt-2'><SizeFilter sizes={sizes} hidleTitle /></div>
         {/* 색상 */}
         <div>
             <p className='text-lg bold'>이용가능한 색상</p>
-            <ProductColors colors={product?.color} />
+            <ProductColors colors={colors} />
         </div>
         {/* 장바구니 */}           
         <div className='flex py-4'>
@@ -168,10 +184,10 @@ const ProductDetails = () => {
     <SectionHeading title={'유사한 상품들'}/>
     <div className='flex px-10'> 
         <div className='pt-4 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 gap-8 px-2 pb-10'>
-            {similarProducts?.map((item,index)=>(
+            {similarProduct?.map((item,index)=>(
                 <ProductCard key={index} {...item}/>
             ))}
-            {!similarProducts?.length && <p>No Products Found!</p>}
+            {!similarProduct?.length && <p>No Products Found!</p>}
         </div>
     </div>
     </>

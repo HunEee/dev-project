@@ -3,7 +3,7 @@ import ShopApplicationWrapper from '../pages/ShopApplicationWrapper.jsx'
 import Shop from '../pages/Shop'
 import ProductListPage from '../pages/ProductListPage/ProductListPage.jsx'
 import ProductDetails from "../pages/ProductDetailPage/ProductDetails"
-import { loadProductById } from "./products";
+import { loadProductBySlug } from "./products";
 
 export const router = createBrowserRouter([
   {
@@ -23,8 +23,8 @@ export const router = createBrowserRouter([
         element:<ProductListPage categoryType={'MEN'}/>,
       },
       {
-        path:"/product/:productId",
-        loader: loadProductById,
+        path:"/product/:slug",
+        loader: loadProductBySlug,
         element: <ProductDetails />
       }
     ]

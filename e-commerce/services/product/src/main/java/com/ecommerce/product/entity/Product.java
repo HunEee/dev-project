@@ -2,6 +2,7 @@ package com.ecommerce.product.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -117,13 +118,21 @@ public class Product {
     }
     
     public void updateVariants(List<ProductVariant> newVariants) {
+        if (this.productVariants == null) {
+            this.productVariants = new ArrayList<>();
+        }
         this.productVariants.clear();
+
         newVariants.forEach(v -> v.changeProduct(this));
         this.productVariants.addAll(newVariants);
     }
 
     public void updateResources(List<ProductResources> newResources) {
+        if (this.resources == null) {
+            this.resources = new ArrayList<>();
+        }
         this.resources.clear();
+
         newResources.forEach(r -> r.changeProduct(this));
         this.resources.addAll(newResources);
     }
