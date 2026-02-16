@@ -22,7 +22,7 @@ public class JWTTokenHelper {
     @Value("${jwt.auth.secret_key}")
     private String secretKey;
 
-    @Value("${jwt.auth.expires_in}")
+    @Value("${jwt.auth.expiration}")
     private int expiresIn;
 
     //JWT 생성

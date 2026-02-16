@@ -29,7 +29,6 @@ public class EmailService {
                 해당 코드를 입력하여 이메일 인증을 완료해주세요.
                 
                 감사합니다.
-                ShopEase
                 """.formatted(
                 user.getUsername(),
                 user.getVerificationCode()

@@ -3,7 +3,9 @@ package com.ecommerce.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,10 +31,15 @@ public class WebSecurityConfig {
 	        this.jwtTokenHelper = jwtTokenHelper;
 	        this.authenticationEntryPoint = authenticationEntryPoint;
 	  }
+	  
+	  @Bean
+	  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+	      return config.getAuthenticationManager();
+	  }
 	
 	  // 인증 없이 접근 가능한 API 목록
 	  private static final String[] PUBLIC_APIS = {
-	        "/api/auth/**",		// 로그인/회원가입
+	        "/api/v1/auth/**",		// 로그인/회원가입
 	        "/v3/api-docs/**",
 	        "/swagger-ui/**",
 	        "/swagger-ui.html",
@@ -52,10 +59,11 @@ public class WebSecurityConfig {
 		            	.requestMatchers(HttpMethod.GET, "/api/v1/products", "/api/v1/category").permitAll()
 		            	.anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
 		    )
-		    .oauth2Login(oauth ->	// OAuth2 로그인 설정
-		            oauth.defaultSuccessUrl("/oauth2/success")
-		                 .loginPage("/oauth2/authorization/google")
-		    )
+				/*
+				 * .oauth2Login(oauth -> // OAuth2 로그인 설정
+				 * oauth.defaultSuccessUrl("/oauth2/success")
+				 * .loginPage("/oauth2/authorization/google") )
+				 */
 		    .addFilterBefore(	// JWT 필터를 기본 로그인 필터 앞에 추가
 		                new JWTAuthenticationFilter(jwtTokenHelper, userDetailsService),
 		                UsernamePasswordAuthenticationFilter.class
