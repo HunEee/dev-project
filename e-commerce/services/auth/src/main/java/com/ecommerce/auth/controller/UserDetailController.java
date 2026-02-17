@@ -1,9 +1,10 @@
 package com.ecommerce.auth.controller;
 
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,12 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.auth.dto.ProfileRequest;
 import com.ecommerce.auth.entity.User;
 
-import java.security.Principal;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserDetailController {
