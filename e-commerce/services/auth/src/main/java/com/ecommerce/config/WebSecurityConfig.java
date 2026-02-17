@@ -47,7 +47,7 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화 -> JWT 기반이므로 세션 사용 안 함
 				.sessionManagement(session -> // 세션 사용하지 않도록 설정
-					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+					session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 				.exceptionHandling(exception -> // 인증 실패시 실행할 핸들러 지정
 					exception.authenticationEntryPoint(authenticationEntryPoint))
 				.authorizeHttpRequests(auth -> // 인증 사용 여부
@@ -56,7 +56,7 @@ public class WebSecurityConfig {
 						.anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
 				)
 				.oauth2Login(oauth -> // OAuth2 로그인 설정
-				 	oauth.defaultSuccessUrl("/oauth2/success")
+				 	oauth.defaultSuccessUrl("/oauth2/success",true)
 				 		 .loginPage("/oauth2/authorization/google") 
 				)
 				.addFilterBefore( // JWT 필터를 기본 로그인 필터 앞에 추가
