@@ -69,7 +69,7 @@ const ProductListPage = ({categoryType}) => {
                 {/* 상품 */}
                 <div className='pt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 px-2'>
                     {products?.map((item,index)=>(
-                    <ProductCard key={item?.id+"_"+index} {...item} title={item?.name}/>
+                        <ProductCard key={item?.id+"_"+index} {...item} title={item?.name}/>
                     ))}
                     {/* 더미 데이터 
                     {productListItems?.map((item,index)=>(

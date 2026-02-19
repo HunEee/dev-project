@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+// 앱이 시작될 때 localStorage에 저장된 cart 데이터를 불러옴 없으면 빈 배열로 시작
+// -> 페이지 새로고침해도 장바구니가 유지
 const initialState = {
     cart:JSON.parse(localStorage.getItem('cart')) || []
 }
